@@ -94,61 +94,6 @@ rf_1000 <- randomForest(SalePrice ~ ., data = train_data, ntree = 1000, mtry = 3
 rf_2000 <- randomForest(SalePrice ~ ., data = train_data, ntree = 2000, mtry = 3, seed = 123)
 rf_5000 <- randomForest(SalePrice ~ ., data = train_data, ntree = 5000, mtry = 3, seed = 123)
 ```
-
-### Python
-
-```{python}
-#| label: load-and-model-python
-#| echo: true
-
-import pandas as pd
-import numpy as np
-import matplotlib.pyplot as plt
-from sklearn.ensemble import RandomForestRegressor
-from sklearn.model_selection import train_test_split
-from sklearn.metrics import mean_squared_error, r2_score
-import warnings
-warnings.filterwarnings('ignore')
-
-# Load data
-sales_data = pd.read_csv("https://raw.githubusercontent.com/flyaflya/buad442Fall2025/refs/heads/main/datasets/salesPriceData.csv")
-
-# Prepare model data
-model_vars = ['SalePrice', 'LotArea', 'YearBuilt', 'GrLivArea', 'FullBath', 
-              'HalfBath', 'BedroomAbvGr', 'TotRmsAbvGrd', 'GarageCars', 'zipCode']
-model_data = sales_data[model_vars].dropna()
-
-# Convert zipCode to categorical variable - important for proper modeling
-model_data['zipCode'] = model_data['zipCode'].astype('category')
-
-# Split data
-X = model_data.drop('SalePrice', axis=1)
-y = model_data['SalePrice']
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=123)
-
-# Build random forests with different numbers of trees (with corrected categorical zipCode)
-rf_1 = RandomForestRegressor(n_estimators=1, max_features=3, random_state=123)
-rf_5 = RandomForestRegressor(n_estimators=5, max_features=3, random_state=123)
-rf_25 = RandomForestRegressor(n_estimators=25, max_features=3, random_state=123)
-rf_100 = RandomForestRegressor(n_estimators=100, max_features=3, random_state=123)
-rf_500 = RandomForestRegressor(n_estimators=500, max_features=3, random_state=123)
-rf_1000 = RandomForestRegressor(n_estimators=1000, max_features=3, random_state=123)
-rf_2000 = RandomForestRegressor(n_estimators=2000, max_features=3, random_state=123)
-rf_5000 = RandomForestRegressor(n_estimators=5000, max_features=3, random_state=123)
-
-# Fit all models
-rf_1.fit(X_train, y_train)
-rf_5.fit(X_train, y_train)
-rf_25.fit(X_train, y_train)
-rf_100.fit(X_train, y_train)
-rf_500.fit(X_train, y_train)
-rf_1000.fit(X_train, y_train)
-rf_2000.fit(X_train, y_train)
-rf_5000.fit(X_train, y_train)
-```
-
-:::
-
 ## Results: The Power of Ensemble Learning
 
 Our analysis reveals a clear pattern: **more trees consistently improve performance**. Let's examine the results and understand why this happens.
@@ -228,76 +173,6 @@ performance_df <- data.frame(
 print(performance_df)
 ```
 
-### Python
-
-```{python}
-#| label: performance-comparison-python
-#| echo: true
-#| fig-width: 10
-#| fig-height: 6
-
-# Calculate predictions for test data
-predictions_1_test = rf_1.predict(X_test)
-predictions_5_test = rf_5.predict(X_test)
-predictions_25_test = rf_25.predict(X_test)
-predictions_100_test = rf_100.predict(X_test)
-predictions_500_test = rf_500.predict(X_test)
-predictions_1000_test = rf_1000.predict(X_test)
-predictions_2000_test = rf_2000.predict(X_test)
-predictions_5000_test = rf_5000.predict(X_test)
-
-# Calculate predictions for training data
-predictions_1_train = rf_1.predict(X_train)
-predictions_5_train = rf_5.predict(X_train)
-predictions_25_train = rf_25.predict(X_train)
-predictions_100_train = rf_100.predict(X_train)
-predictions_500_train = rf_500.predict(X_train)
-predictions_1000_train = rf_1000.predict(X_train)
-predictions_2000_train = rf_2000.predict(X_train)
-predictions_5000_train = rf_5000.predict(X_train)
-
-# Calculate performance metrics for test data
-rmse_1_test = np.sqrt(mean_squared_error(y_test, predictions_1_test))
-rmse_5_test = np.sqrt(mean_squared_error(y_test, predictions_5_test))
-rmse_25_test = np.sqrt(mean_squared_error(y_test, predictions_25_test))
-rmse_100_test = np.sqrt(mean_squared_error(y_test, predictions_100_test))
-rmse_500_test = np.sqrt(mean_squared_error(y_test, predictions_500_test))
-rmse_1000_test = np.sqrt(mean_squared_error(y_test, predictions_1000_test))
-rmse_2000_test = np.sqrt(mean_squared_error(y_test, predictions_2000_test))
-rmse_5000_test = np.sqrt(mean_squared_error(y_test, predictions_5000_test))
-
-# Calculate performance metrics for training data
-rmse_1_train = np.sqrt(mean_squared_error(y_train, predictions_1_train))
-rmse_5_train = np.sqrt(mean_squared_error(y_train, predictions_5_train))
-rmse_25_train = np.sqrt(mean_squared_error(y_train, predictions_25_train))
-rmse_100_train = np.sqrt(mean_squared_error(y_train, predictions_100_train))
-rmse_500_train = np.sqrt(mean_squared_error(y_train, predictions_500_train))
-rmse_1000_train = np.sqrt(mean_squared_error(y_train, predictions_1000_train))
-rmse_2000_train = np.sqrt(mean_squared_error(y_train, predictions_2000_train))
-rmse_5000_train = np.sqrt(mean_squared_error(y_train, predictions_5000_train))
-
-r2_1 = r2_score(y_test, predictions_1_test)
-r2_5 = r2_score(y_test, predictions_5_test)
-r2_25 = r2_score(y_test, predictions_25_test)
-r2_100 = r2_score(y_test, predictions_100_test)
-r2_500 = r2_score(y_test, predictions_500_test)
-r2_1000 = r2_score(y_test, predictions_1000_test)
-r2_2000 = r2_score(y_test, predictions_2000_test)
-r2_5000 = r2_score(y_test, predictions_5000_test)
-
-# Create performance comparison
-performance_data = {
-    'Trees': [1, 5, 25, 100, 500, 1000, 2000, 5000],
-    'RMSE_Test': [rmse_1_test, rmse_5_test, rmse_25_test, rmse_100_test, rmse_500_test, rmse_1000_test, rmse_2000_test, rmse_5000_test],
-    'RMSE_Train': [rmse_1_train, rmse_5_train, rmse_25_train, rmse_100_train, rmse_500_train, rmse_1000_train, rmse_2000_train, rmse_5000_train],
-    'R_squared': [r2_1, r2_5, r2_25, r2_100, r2_500, r2_1000, r2_2000, r2_5000]
-}
-
-performance_df = pd.DataFrame(performance_data)
-print(performance_df)
-```
-
-:::
 
 ## Student Analysis Section: The Power of More Trees {#student-analysis-section}
 
@@ -320,6 +195,76 @@ print(performance_df)
 Create two plots:
 1. **RMSE Plot:** Show how RMSE decreases with more trees (both training and test)
 2. **R-squared Plot:** Show how R-squared increases with more trees
+## RSME Plot
+```{r}
+#| label: rmse-plot
+#| echo: false
+#| fig-width: 10
+#| fig-height: 6
+
+library(ggplot2)
+library(tidyr)
+
+# Reshape data to long format for plotting both training and test RMSE
+rmse_plot_data <- performance_df %>%
+  select(Trees, RMSE_Train, RMSE_Test) %>%
+  pivot_longer(cols = c(RMSE_Train, RMSE_Test), 
+               names_to = "Dataset", 
+               values_to = "RMSE") %>%
+  mutate(Dataset = case_when(
+    Dataset == "RMSE_Train" ~ "Training",
+    Dataset == "RMSE_Test" ~ "Test"
+  ))
+
+# Create RMSE plot with log scale on x-axis
+ggplot(rmse_plot_data, aes(x = Trees, y = RMSE, color = Dataset)) +
+  geom_line(size = 1.2) +
+  geom_point(size = 2.5) +
+  scale_x_log10(breaks = c(1, 5, 25, 100, 500, 1000, 2000, 5000),
+                labels = c("1", "5", "25", "100", "500", "1000", "2000", "5000")) +
+  labs(
+    title = "RMSE vs Number of Trees",
+    subtitle = "How RMSE decreases as more trees are added to the random forest",
+    x = "Number of Trees (log scale)",
+    y = "RMSE",
+    color = "Dataset"
+  ) +
+  theme_minimal() +
+  theme(
+    plot.title = element_text(size = 14, face = "bold"),
+    plot.subtitle = element_text(size = 11, color = "gray50"),
+    legend.position = "bottom",
+    legend.title = element_text(face = "bold")
+  )
+```
+## R-squared Plot
+
+```{r}
+#| label: r-squared-plot
+#| echo: false
+#| fig-width: 10
+#| fig-height: 6
+
+library(ggplot2)
+
+# Create R-squared plot with log scale on x-axis
+ggplot(performance_df, aes(x = Trees, y = R_squared)) +
+  geom_line(size = 1.2, color = "steelblue") +
+  geom_point(size = 2.5, color = "steelblue") +
+  scale_x_log10(breaks = c(1, 5, 25, 100, 500, 1000, 2000, 5000),
+                labels = c("1", "5", "25", "100", "500", "1000", "2000", "5000")) +
+  labs(
+    title = "R-squared vs Number of Trees",
+    subtitle = "How R-squared increases as more trees are added to the random forest",
+    x = "Number of Trees (log scale)",
+    y = "R-squared"
+  ) +
+  theme_minimal() +
+  theme(
+    plot.title = element_text(size = 14, face = "bold"),
+    plot.subtitle = element_text(size = 11, color = "gray50")
+  )
+```
 
 Use log scale on x-axis to better show the relationship across the range of tree counts.
 :::
@@ -347,6 +292,112 @@ Create a side-by-side comparison showing:
 - Use the same y-axis limits for both side-by-side plots so it clearly shows whether random forests outperform decision trees.
 - Do not `echo` the code that creates the visualization
 :::
+
+```{r}
+#| label: overfitting-comparison
+#| echo: false
+#| fig-width: 14
+#| fig-height: 6
+
+library(ggplot2)
+library(tidyr)
+library(rpart)
+library(gridExtra)
+
+# Build decision trees with different max depths
+max_depths <- c(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 12, 15, 20, 25, 30)
+dt_train_rmse <- numeric(length(max_depths))
+dt_test_rmse <- numeric(length(max_depths))
+
+for (i in seq_along(max_depths)) {
+  dt_model <- rpart(SalePrice ~ ., data = train_data, 
+                    control = rpart.control(maxdepth = max_depths[i]))
+  
+  dt_pred_train <- predict(dt_model, train_data)
+  dt_pred_test <- predict(dt_model, test_data)
+  
+  dt_train_rmse[i] <- sqrt(mean((train_data$SalePrice - dt_pred_train)^2))
+  dt_test_rmse[i] <- sqrt(mean((test_data$SalePrice - dt_pred_test)^2))
+}
+
+# Create decision tree data frame
+dt_performance <- data.frame(
+  MaxDepth = max_depths,
+  RMSE_Train = dt_train_rmse,
+  RMSE_Test = dt_test_rmse
+)
+
+# Reshape decision tree data for plotting
+dt_plot_data <- dt_performance %>%
+  pivot_longer(cols = c(RMSE_Train, RMSE_Test),
+               names_to = "Dataset",
+               values_to = "RMSE") %>%
+  mutate(Dataset = case_when(
+    Dataset == "RMSE_Train" ~ "Training",
+    Dataset == "RMSE_Test" ~ "Test"
+  ))
+
+# Reshape random forest data for plotting (using existing performance_df)
+rf_plot_data <- performance_df %>%
+  select(Trees, RMSE_Train, RMSE_Test) %>%
+  pivot_longer(cols = c(RMSE_Train, RMSE_Test),
+               names_to = "Dataset",
+               values_to = "RMSE") %>%
+  mutate(Dataset = case_when(
+    Dataset == "RMSE_Train" ~ "Training",
+    Dataset == "RMSE_Test" ~ "Test"
+  ))
+
+# Calculate common y-axis limits for both plots
+y_min <- min(c(dt_plot_data$RMSE, rf_plot_data$RMSE))
+y_max <- max(c(dt_plot_data$RMSE, rf_plot_data$RMSE))
+y_range <- c(y_min, y_max)
+
+# Create decision tree plot
+p1 <- ggplot(dt_plot_data, aes(x = MaxDepth, y = RMSE, color = Dataset)) +
+  geom_line(size = 1.2) +
+  geom_point(size = 2) +
+  scale_y_continuous(limits = y_range) +
+  labs(
+    title = "Decision Trees: Overfitting with Complexity",
+    subtitle = "Training RMSE decreases while test RMSE increases (overfitting)",
+    x = "Max Depth (Tree Complexity)",
+    y = "RMSE",
+    color = "Dataset"
+  ) +
+  theme_minimal() +
+  theme(
+    plot.title = element_text(size = 13, face = "bold"),
+    plot.subtitle = element_text(size = 10, color = "gray50"),
+    legend.position = "bottom",
+    legend.title = element_text(face = "bold")
+  )
+
+# Create random forest plot
+p2 <- ggplot(rf_plot_data, aes(x = Trees, y = RMSE, color = Dataset)) +
+  geom_line(size = 1.2) +
+  geom_point(size = 2) +
+  scale_x_log10(breaks = c(1, 5, 25, 100, 500, 1000, 2000, 5000),
+                labels = c("1", "5", "25", "100", "500", "1000", "2000", "5000")) +
+  scale_y_continuous(limits = y_range) +
+  labs(
+    title = "Random Forests: No Overfitting",
+    subtitle = "Both training and test RMSE decrease together",
+    x = "Number of Trees (log scale)",
+    y = "RMSE",
+    color = "Dataset"
+  ) +
+  theme_minimal() +
+  theme(
+    plot.title = element_text(size = 13, face = "bold"),
+    plot.subtitle = element_text(size = 10, color = "gray50"),
+    legend.position = "bottom",
+    legend.title = element_text(face = "bold")
+  )
+
+# Display plots side by side
+grid.arrange(p1, p2, ncol = 2)
+```
 
 ### 3. Linear Regression vs Random Forest Comparison
 
@@ -376,6 +427,49 @@ Create a clear table comparing:
 
 Include percentage improvements over linear regression for each random forest model.
 :::
+
+```{r}
+#| label: linear-regression-comparison
+#| echo: false
+
+# Build linear regression model
+lm_model <- lm(SalePrice ~ ., data = train_data)
+
+# Calculate predictions and RMSE for linear regression
+lm_pred_test <- predict(lm_model, test_data)
+lm_rmse_test <- sqrt(mean((test_data$SalePrice - lm_pred_test)^2))
+
+# Get RMSE values for random forests (already calculated)
+rf_1_rmse <- rmse_1_test
+rf_100_rmse <- rmse_100_test
+rf_1000_rmse <- rmse_1000_test
+
+# Calculate percentage improvements over linear regression
+# Percentage improvement = ((baseline - new) / baseline) * 100
+pct_improvement_1 <- ((lm_rmse_test - rf_1_rmse) / lm_rmse_test) * 100
+pct_improvement_100 <- ((lm_rmse_test - rf_100_rmse) / lm_rmse_test) * 100
+pct_improvement_1000 <- ((lm_rmse_test - rf_1000_rmse) / lm_rmse_test) * 100
+
+# Create comparison table
+comparison_table <- data.frame(
+  Model = c("Linear Regression", 
+            "Random Forest (1 tree)", 
+            "Random Forest (100 trees)", 
+            "Random Forest (1000 trees)"),
+  RMSE_Test = c(lm_rmse_test, rf_1_rmse, rf_100_rmse, rf_1000_rmse),
+  Improvement = c("Baseline", 
+                  paste0(round(pct_improvement_1, 2), "%"),
+                  paste0(round(pct_improvement_100, 2), "%"),
+                  paste0(round(pct_improvement_1000, 2), "%"))
+)
+
+# Format and display table
+kable(comparison_table,
+      caption = "Model Comparison: Linear Regression vs Random Forests",
+      col.names = c("Model", "Test RMSE", "Improvement over Linear Regression"),
+      digits = 2,
+      align = c("l", "r", "r"))
+```
 
 ## Challenge Requirements 📋
 
