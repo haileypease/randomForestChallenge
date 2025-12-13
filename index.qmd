@@ -393,10 +393,12 @@ The comparison table reveals several important insights about model performance:
 **Linear Regression vs 100-tree Random Forest:** Moreover, the gain from switching from linear regression to a random forest of 100 trees is large and often comparable or larger than that from 1 to 100 trees. From this, it seems reasonable to conclude that random forests capture nonlinear relationships and interactions among the variables that liner regression does not catch, which again is highly useful when working with complex datasets containing nonlinear patterns.
 
 **When Random Forests are Worth the Complexity:** Random forests are worth the added complexity when:
-* The relationship between predictors and the target variable is non-linear
-* There are important interactions between variables that linear models miss
-* The dataset is large enough to support the computational cost
-* Prediction accuracy is more important than model interpretability
-* The performance gain (as shown in the RMSE reduction) justifies the increased computational time and reduced interpretability
+
+*   The relationship between predictors and the target variable is non-linear
+*   There are important interactions between variables that linear models miss
+*   The dataset is large enough to support the computational cost
+*   Prediction accuracy is more important than model interpretability
+*   The performance gain (as shown in the RMSE reduction) justifies the increased computational time and reduced interpretability
+ 
 
 **Trade-offs between Interpretability and Performance:** Linear regression provides a high level of interpretability because it is easy to interpret how every variable, including the dependent variable, contributes to a particular result because of the use of coefficients. Random forests, which are more accurate, are considered "black box" models because it is hard to interpret how a particular prediction result is obtained. It is, therefore, easy to see that the trade-off here is that accuracy is gained at the cost of interpretability. In most cases, especially when interpretability is paramount, such that models are used to address legal obligations, scientific presentations, and so on, linear regression models might still be used, even though they are less accurate.

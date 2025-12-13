@@ -215,7 +215,14 @@ Attaching package: 'gridExtra'</code></pre>
 <p>The comparison table reveals several important insights about model performance:</p>
 <p><strong>Improvement from 1 tree to 100 trees:</strong> The transition from a single decision tree (Random Forest with 1 tree) to 100 trees is a significant improvement in RMSE. This is a great illustration of the “wisdom of the crowd,” a phenomenon that occurs when multiple weak models (single trees, in this case) are used to produce a far stronger model (the Random Forest). The reason for this improvement is that there is a convergence effect when a forecast from a single tree is combined with a forecast from a second, different tree, resulting in a more accurate prediction.</p>
 <p><strong>Linear Regression vs 100-tree Random Forest:</strong> Moreover, the gain from switching from linear regression to a random forest of 100 trees is large and often comparable or larger than that from 1 to 100 trees. From this, it seems reasonable to conclude that random forests capture nonlinear relationships and interactions among the variables that liner regression does not catch, which again is highly useful when working with complex datasets containing nonlinear patterns.</p>
-<p><strong>When Random Forests are Worth the Complexity:</strong> Random forests are worth the added complexity when: * The relationship between predictors and the target variable is non-linear * There are important interactions between variables that linear models miss * The dataset is large enough to support the computational cost * Prediction accuracy is more important than model interpretability * The performance gain (as shown in the RMSE reduction) justifies the increased computational time and reduced interpretability</p>
+<p><strong>When Random Forests are Worth the Complexity:</strong> Random forests are worth the added complexity when:</p>
+<ul>
+<li>The relationship between predictors and the target variable is non-linear</li>
+<li>There are important interactions between variables that linear models miss</li>
+<li>The dataset is large enough to support the computational cost</li>
+<li>Prediction accuracy is more important than model interpretability</li>
+<li>The performance gain (as shown in the RMSE reduction) justifies the increased computational time and reduced interpretability</li>
+</ul>
 <p><strong>Trade-offs between Interpretability and Performance:</strong> Linear regression provides a high level of interpretability because it is easy to interpret how every variable, including the dependent variable, contributes to a particular result because of the use of coefficients. Random forests, which are more accurate, are considered “black box” models because it is hard to interpret how a particular prediction result is obtained. It is, therefore, easy to see that the trade-off here is that accuracy is gained at the cost of interpretability. In most cases, especially when interpretability is paramount, such that models are used to address legal obligations, scientific presentations, and so on, linear regression models might still be used, even though they are less accurate.</p>
 </section>
 </section>
