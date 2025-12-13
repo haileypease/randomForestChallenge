@@ -135,18 +135,10 @@ print(performance_df)
 ```
 
 
-## Student Analysis Section: The Power of More Trees {#student-analysis-section}
 
 ### 1. The Power of More Trees Visualization
 
-**Create a visualization showing:**
-- RMSE vs Number of Trees (both training and test data)
-- R-squared vs Number of Trees
-- Do not `echo` the code that creates the visualization
-
-**Add Brief Discussion of the Visualization**
-- Discuss where the most dramatic improvement in performance occurs as you add more trees, how dramatic is it?
-- Discuss diminishing returns as you add more trees
+- RMSE vs Number of Trees 
 
 The plot shows that the greatest improvement in performance happens upfront, especially as we go from 1 to around 25 trees. Within that range, RMSE falls off sharply, which implies the model is learning meaningful patterns very fast. Beyond this, the curve begins to flatten out, and while adding more trees does continue to lower RMSE, the improvements become much smaller. Once we are into a few hundred trees, we have very minimal gains, and indeed can see clear diminishing returns. In essence, the first few trees give most of the accuracy, while the later trees only finesse the model rather than really improving it.
 
@@ -227,9 +219,6 @@ ggplot(performance_df, aes(x = Trees, y = R_squared)) +
 ### 2. Overfitting Visualization and Analysis
 
 
-**Create one visualization with two side-by-side plots showing:**
-- Decision trees: How performance changes with tree complexity (max depth)
-- Random forests: How performance changes with number of trees
 
 **Your analysis should explain:**
 
@@ -242,8 +231,6 @@ Create a side-by-side comparison showing:
 1. **Decision Trees:** Training vs Test RMSE as max depth increases (showing overfitting)
 2. **Random Forests:** Training vs Test RMSE as number of trees increases (no overfitting)
 
-- Use the same y-axis limits for both side-by-side plots so it clearly shows whether random forests outperform decision trees.
-- Do not `echo` the code that creates the visualization
 
 
 ```{r}
@@ -354,21 +341,6 @@ grid.arrange(p1, p2, ncol = 2)
 
 ### 3. Linear Regression vs Random Forest Comparison
 
-**Your Task:** Compare random forests to linear regression baseline.
-
-**Create a comparison table showing:**
-- Linear Regression RMSE
-- Random Forest (1 tree) RMSE  
-- Random Forest (100 trees) RMSE
-- Random Forest (1000 trees) RMSE
-
-**Your analysis should address:**
-- The improvement in RMSE when going from 1 tree to 100 trees
-- Whether switching from linear regression to 100-tree random forest shows similar improvement
-- When random forests are worth the added complexity vs linear regression
-- The trade-offs between interpretability and performance
-
-
 ```{r}
 #| label: linear-regression-comparison
 #| echo: false
@@ -421,10 +393,10 @@ The comparison table reveals several important insights about model performance:
 **Linear Regression vs 100-tree Random Forest:** Moreover, the gain from switching from linear regression to a random forest of 100 trees is large and often comparable or larger than that from 1 to 100 trees. From this, it seems reasonable to conclude that random forests capture nonlinear relationships and interactions among the variables that liner regression does not catch, which again is highly useful when working with complex datasets containing nonlinear patterns.
 
 **When Random Forests are Worth the Complexity:** Random forests are worth the added complexity when:
-- The relationship between predictors and the target variable is non-linear
-- There are important interactions between variables that linear models miss
-- The dataset is large enough to support the computational cost
-- Prediction accuracy is more important than model interpretability
-- The performance gain (as shown in the RMSE reduction) justifies the increased computational time and reduced interpretability
+* The relationship between predictors and the target variable is non-linear
+* There are important interactions between variables that linear models miss
+* The dataset is large enough to support the computational cost
+* Prediction accuracy is more important than model interpretability
+* The performance gain (as shown in the RMSE reduction) justifies the increased computational time and reduced interpretability
 
 **Trade-offs between Interpretability and Performance:** Linear regression provides a high level of interpretability because it is easy to interpret how every variable, including the dependent variable, contributes to a particular result because of the use of coefficients. Random forests, which are more accurate, are considered "black box" models because it is hard to interpret how a particular prediction result is obtained. It is, therefore, easy to see that the trade-off here is that accuracy is gained at the cost of interpretability. In most cases, especially when interpretability is paramount, such that models are used to address legal obligations, scientific presentations, and so on, linear regression models might still be used, even though they are less accurate.
